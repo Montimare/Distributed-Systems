@@ -1,17 +1,27 @@
 import socket
+import threading
 
 HOST = "localhost"
 PORT = 5678
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+def send():
+    while True:
+        msg = "Client: " + input()
+        s.send(msg.encode())
 
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 try:
     s.connect((HOST, PORT))
-    msg = "Hello Server!"
-    s.send(msg.encode())
-    data = s.recv(1024)
-    print(data.decode())
+
+    t1 = threading.Thread(target=send)
+    t1.start()
+
+    while True:
+        data = s.recv(1024)
+        if not data: 
+            continue
+        print(data.decode())
 
 finally:
     s.close()

@@ -43,19 +43,8 @@ while True:
         t1.start()
         t2 = threading.Thread(target=receive)
         t2.start()
-        t1.join()
-        t2.join()
+        t1.join() # Wait for t1 to finish
+        t2.join() # Wait for t2 to finish   
 
     finally:
         conn.close()
-
-
-# geklaut von dominic für multithreading
-
-# t1 = threading.Thread(target=server)
-# t2 = threading.Thread(target=client)
-# t1.start()
-# t2.start()
-
-# t1.join()
-# t2.join()
